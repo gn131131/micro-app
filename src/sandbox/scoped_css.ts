@@ -107,8 +107,21 @@ class CSSParser {
      *  6. :where(.a, .b, .c) a {}
      *    should be ==> micro-app[name=xxx] :where(.a, .b, .c) a {}
      */
-    return m[0].replace(/(^|,[\n\s]*)([^,]+)/g, (_, separator, selector) => {
+    const attributeValues: {[key: string]: any} = {}
+    const matchRes = m[0].replace(/\[([^\]=]+)(?:=([^\]]+))?\]/g, (match, p1, p2) => {
+      const mock = `__mock_${p1}Value__`
+      attributeValues[mock] = p2
+      return match.replace(p2, mock)
+    })
+
+    return matchRes.replace(/(^|,[\n\s]*)([^,]+)/g, (_, separator, selector) => {
       selector = trim(selector)
+      selector = selector.replace(/\[[^\]=]+(?:=([^\]]+))?\]/g, (match:string, p1: string) => {
+        if (attributeValues[p1]) {
+          return match.replace(p1, attributeValues[p1])
+        }
+        return match
+      })
       if (selector && !(
         this.scopecssDisableNextLine ||
         (
@@ -149,7 +162,7 @@ class CSSParser {
         !this.scopecssDisableNextLine &&
         (!this.scopecssDisable || this.scopecssDisableSelectors.length)
       ) {
-        cssValue = cssValue.replace(/url\(["']?([^)"']+)["']?\)/gm, (all, $1) => {
+        cssValue = cssValue.replace(/url\((["']?)(.*?)\1\)/gm, (all, _, $1) => {
           if (/^((data|blob):|#|%23)/.test($1) || /^(https?:)?\/\//.test($1)) {
             return all
           }
@@ -436,7 +449,7 @@ class CSSParser {
 
   // splice string
   private recordResult (strFragment: string): void {
-    // Firefox performance degradation when string contain special characters, see https://github.com/micro-zoe/micro-app/issues/256
+    // Firefox performance degradation when string contain special characters, see https://github.com/jd-opensource/micro-app/issues/256
     if (isFireFox()) {
       this.result += encodeURIComponent(strFragment)
     } else {
@@ -505,6 +518,15 @@ export default function scopedCSS (
         app.url,
         linkPath,
       )
+      const observer = new MutationObserver(() => {
+        const isPrefixed = styleElement.textContent && new RegExp(prefix).test(styleElement.textContent)
+        observer.disconnect()
+        if (!isPrefixed) {
+          styleElement.__MICRO_APP_HAS_SCOPED__ = false
+        }
+        scopedCSS(styleElement, app, linkPath)
+      })
+      observer.observe(styleElement, { childList: true, characterData: true })
     } else {
       const observer = new MutationObserver(function () {
         observer.disconnect()
