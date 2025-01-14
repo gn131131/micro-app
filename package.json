@@ -1,5 +1,5 @@
 {
-  "name": "@micro-zoe/micro-app",
+  "name": "@gn131131/micro-app",
   "version": "1.0.0-rc.18",
   "description": "A lightweight, efficient and powerful micro front-end framework",
   "private": false,
@@ -10,23 +10,23 @@
     "doc": "docs"
   },
   "scripts": {
-    "bootstrap": "yarn && npm-run-all --serial install:*",
+    "bootstrap": "pnpm install && npm-run-all --serial install:*",
     "start": "yarn start:main-react16",
     "start:main-react16": "npm-run-all --parallel build:watch start-child:* main-react16",
     "start:main-vue2": "npm-run-all --parallel build:watch start-child:* main-vue2",
     "start:main-vite": "npm-run-all --parallel build:watch start-child:* main-vite",
     "build:watch": "cross-env NODE_ENV='development' rollup -c -w",
     "build": "cross-env NODE_ENV='production' rollup -c && npm run createtype && npm run afterbuild",
-    "install:main-react16": "cd dev/main-react16 && yarn",
-    "install:main-vue2": "cd dev/main-vue2 && yarn",
-    "install:main-vite": "cd dev/main-vite && yarn",
-    "install:child-react16": "cd dev/children/react16 && yarn",
-    "install:child-react17": "cd dev/children/react17 && yarn",
-    "install:child-vue2": "cd dev/children/vue2 && yarn",
-    "install:child-vue3": "cd dev/children/vue3 && yarn",
-    "install:child-vite2": "cd dev/children/vite2 && yarn",
-    "install:child-vite4": "cd dev/children/vite4 && yarn",
-    "install:child-angular11": "cd dev/children/angular11 && yarn",
+    "install:main-react16": "cd dev/main-react16 && pnpm install",
+    "install:main-vue2": "cd dev/main-vue2 && pnpm install",
+    "install:main-vite": "cd dev/main-vite && pnpm install",
+    "install:child-react16": "cd dev/children/react16 && pnpm install",
+    "install:child-react17": "cd dev/children/react17 && pnpm install",
+    "install:child-vue2": "cd dev/children/vue2 && pnpm install",
+    "install:child-vue3": "cd dev/children/vue3 && pnpm install",
+    "install:child-vite2": "cd dev/children/vite2 && pnpm install",
+    "install:child-vite4": "cd dev/children/vite4 && pnpm install",
+    "install:child-angular11": "cd dev/children/angular11 && pnpm install",
     "main-react16": "cd dev/main-react16 && yarn start",
     "main-vue2": "cd dev/main-vue2 && yarn start",
     "main-vite": "cd dev/main-vite && yarn start",
@@ -55,7 +55,8 @@
     "url": "https://github.com/jd-opensource/micro-app.git"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [
     "webcomponents",
@@ -69,7 +70,7 @@
     "plugins",
     "typings"
   ],
-  "author": "cangdu",
+  "author": "guannan",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jd-opensource/micro-app/issues"
@@ -85,7 +86,6 @@
       "yarn lint"
     ]
   },
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "~7.12.10",
     "@babel/plugin-transform-runtime": "~7.12.10",
@@ -128,6 +128,7 @@
     "pretty-bytes": "~5.5.0",
     "react": "~17.0.2",
     "rollup": "~2.35.1",
+    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-terser": "~7.0.2",
     "ts-jest": "~26.5.6",
     "typescript": "~4.1.3"

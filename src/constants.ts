@@ -52,7 +52,7 @@ export enum MicroAppConfig {
   DISABLE_PATCH_REQUEST = 'disable-patch-request',
   KEEP_ROUTER_STATE = 'keep-router-state',
   KEEP_ALIVE = 'keep-alive',
-  CLEAR_DATA ='clear-data',
+  CLEAR_DATA = 'clear-data',
   SSR = 'ssr',
   FIBER = 'fiber',
 }
@@ -65,7 +65,8 @@ export enum MicroAppConfig {
  * NOTE:
  * 1. Do not add fetch, XMLHttpRequest, EventSource
  */
-export const GLOBAL_CACHED_KEY = 'window,self,globalThis,document,Document,Array,Object,String,Boolean,Math,Number,Symbol,Date,Function,Proxy,WeakMap,WeakSet,Set,Map,Reflect,Element,Node,RegExp,Error,TypeError,JSON,isNaN,parseFloat,parseInt,performance,console,decodeURI,encodeURI,decodeURIComponent,encodeURIComponent,navigator,undefined,location,history'
+export const GLOBAL_CACHED_KEY =
+  'window,self,globalThis,document,Document,Array,Object,String,Boolean,Math,Number,Symbol,Date,Function,Proxy,WeakMap,WeakSet,Set,Map,Reflect,Element,Node,RegExp,Error,TypeError,JSON,isNaN,parseFloat,parseInt,performance,console,decodeURI,encodeURI,decodeURIComponent,encodeURIComponent,navigator,undefined,location,history'
 
 // prefetch level
 export const PREFETCH_LEVEL: number[] = [1, 2, 3]
@@ -75,7 +76,7 @@ export const PREFETCH_LEVEL: number[] = [1, 2, 3]
  * NOTE:
  *  1. The only difference between native and native-scope is location.origin, in native-scope mode location.origin point to child app
  *  2. native mode equal to disable-memory-router
-*/
+ */
 // 临时注释，1.0版本放开，默认模式切换为state
 // // default mode, sync child app router info to history.state
 // export const DEFAULT_ROUTER_MODE = 'state'
@@ -117,10 +118,7 @@ const BASE_SCOPE_WINDOW_EVENT = [
 export const SCOPE_WINDOW_EVENT_OF_WITH = BASE_SCOPE_WINDOW_EVENT
 
 // bind event of iframe sandbox
-export const SCOPE_WINDOW_EVENT_OF_IFRAME = BASE_SCOPE_WINDOW_EVENT.concat([
-  'unhandledrejection',
-  'message'
-])
+export const SCOPE_WINDOW_EVENT_OF_IFRAME = BASE_SCOPE_WINDOW_EVENT.concat(['unhandledrejection'])
 
 // on event bound to child app window
 // TODO: with和iframe处理方式不同，需修改
@@ -129,7 +127,7 @@ const BASE_SCOPE_WINDOW_ON_EVENT = [
   'onhashchange',
   'onload',
   'onunload',
-  'onerror'
+  'onerror',
   // 'onbeforeunload', // remove at 2024.5.30 by cangdu
 ]
 
@@ -137,34 +135,17 @@ const BASE_SCOPE_WINDOW_ON_EVENT = [
 export const SCOPE_WINDOW_ON_EVENT_OF_WITH = BASE_SCOPE_WINDOW_ON_EVENT
 
 // bind on event of iframe sandbox
-export const SCOPE_WINDOW_ON_EVENT_OF_IFRAME = BASE_SCOPE_WINDOW_ON_EVENT.concat([
-  'onunhandledrejection',
-])
+export const SCOPE_WINDOW_ON_EVENT_OF_IFRAME = BASE_SCOPE_WINDOW_ON_EVENT.concat(['onunhandledrejection'])
 
 // event bound to child app document
-export const SCOPE_DOCUMENT_EVENT = [
-  'DOMContentLoaded',
-  'readystatechange',
-]
+export const SCOPE_DOCUMENT_EVENT = ['DOMContentLoaded', 'readystatechange']
 
 // on event bound to child app document
-export const SCOPE_DOCUMENT_ON_EVENT = [
-  'onreadystatechange',
-]
+export const SCOPE_DOCUMENT_ON_EVENT = ['onreadystatechange']
 
 // global key point to window
-export const GLOBAL_KEY_TO_WINDOW: Array<PropertyKey> = [
-  'window',
-  'self',
-  'globalThis',
-]
+export const GLOBAL_KEY_TO_WINDOW: Array<PropertyKey> = ['window', 'self', 'globalThis']
 
 export const RAW_GLOBAL_TARGET: Array<PropertyKey> = ['rawWindow', 'rawDocument']
 
-export const HIJACK_LOCATION_KEYS = [
-  'host',
-  'hostname',
-  'port',
-  'protocol',
-  'origin',
-]
+export const HIJACK_LOCATION_KEYS = ['host', 'hostname', 'port', 'protocol', 'origin']

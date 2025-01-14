@@ -16,7 +16,7 @@ const typingsDir = 'typings' // typings目录地址
 const outPath = path.join(cwd, 'lib/index.d.ts') // 输出目录
 
 // 判断是否是文件夹
-function isDirectory (dir) {
+function isDirectory(dir) {
   try {
     const stat = fs.statSync(dir)
     return stat.isDirectory()
@@ -26,7 +26,7 @@ function isDirectory (dir) {
 }
 
 // 添加Reference依赖
-function addReference (target) {
+function addReference(target) {
   try {
     if (fs.statSync(target).isFile() && path.extname(target) === '.ts') {
       const preSource = fs.readFileSync(outPath)
@@ -42,7 +42,7 @@ function addReference (target) {
   }
 }
 
-function createDts () {
+function createDts() {
   try {
     dts.bundle({
       main: path.join(cwd, 'lib', 'lib/index.d.ts'), // 入口地址
@@ -58,9 +58,7 @@ function createDts () {
     const parsedCode = dtsCode.replace(/import type/g, 'import')
     fs.writeFileSync(outPath, parsedCode)
   } catch (e) {
-    console.log(
-      chalk.red('生成*.d.ts文件失败'),
-    )
+    console.log(chalk.red('生成*.d.ts文件失败'))
     throw e
   }
 }
