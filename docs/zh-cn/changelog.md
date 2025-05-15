@@ -7,9 +7,52 @@
 - 修订版本号：每周末会进行日常 bugfix 更新。（如果有紧急的 bugfix，则任何时候都可发布）
 
 ---
+
+
+### 1.0.0-rc.24
+
+`2025-03-19`
+- **Feature**
+  - 支持 aHrefResolver: 自定义处理所有子应用 a 标签的 href 拼接方式。
+
+
+### 1.0.0-rc.23
+
+`2025-03-17`
+- **Bug Fix**
+  - 🐞 修复 micro-app标签的name属性修改后，子应用addDataListener无法接收基座数据。
+  - 🐞 修复 micro-app stop rendering SecurityError: Failed to sea named property'__MICRO_APP_STATE__' "On 'Window': Blocked a frame with origin "xxxx" from accessing a cross-origin frame。
+  - 🐞 修复 reload子应用后，子应用antd组件select、tooltip等组件会报错，导致子应用崩溃 [issue 1533](https://github.com/jd-opensource/micro-app/issues/1533)。
+
+### 1.0.0-rc.22
+
+`2025-02-27`
+- **Feature**
+  - start 支持`inheritBaseBody` 参数:子应用是否采用基座，默认不适用。
+  - 子应用支持addEventListener('error')捕捉自身异常。
+  
+### 1.0.0-rc.21
+
+`2025-02-22`
+- **Bug Fix**
+  - 🐞 修复 升级到rc20版本后，子应用间切换，document.body获取不到导致ui库antdesign报错 [issue 1519](https://github.com/jd-opensource/micro-app/issues/1519)。
+- **Feature**
+  - 支持 excludeRunScriptFilter: 自定义屏蔽JS加载异常 。
+  
+### 1.0.0-rc.20
+
+`2025-01-24`
+- **Bug Fix**
+  - 🐞 修复 从rc8升级到rc18后，子应用中使用instanceof判断出现异常 [issue 1497](https://github.com/jd-opensource/micro-app/issues/1497)。
+  - 🐞 修复 setTimeout 执行后未清理记录导致内存泄漏。
+  - 🐞 修复 子应用采用 "react": "^18.3.1"  + jdesign Dragger 上传组件异常问题。
+  - 🐞 修复 子应用document.body逃逸问题[issue 1452](https://github.com/jd-opensource/micro-app/issues/1452)。
+- **Feature**
+  - 支持 子应用A标签href自定义补齐回调钩子。
+  
 ### 1.0.0-rc.19
 
-`待定`
+`2025-01-15`
 - **Bug Fix**
   - 🐞 修复 子应用渲染之后，使用Html2Canvas截图，页面崩溃，无限循环加载当前页面静态资源 [issue 1483](https://github.com/jd-opensource/micro-app/issues/1483)。
   - 🐞 修复 vite热更样式隔离丢失问题

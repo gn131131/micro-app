@@ -34,7 +34,7 @@ export function patchElement (
   sandbox: IframeSandbox,
 ): void {
   patchIframeNode(appName, microAppWindow, sandbox)
-  patchIframeAttribute(url, microAppWindow)
+  patchIframeAttribute(url, microAppWindow, appName)
 }
 
 /**
@@ -229,7 +229,7 @@ function patchIframeNode (
   })
 }
 
-function patchIframeAttribute (url: string, microAppWindow: microAppWindowType): void {
+function patchIframeAttribute (url: string, microAppWindow: microAppWindowType, appName: string): void {
   const microRootElement = microAppWindow.Element
   const rawMicroSetAttribute = microRootElement.prototype.setAttribute
 
@@ -241,7 +241,11 @@ function patchIframeAttribute (url: string, microAppWindow: microAppWindowType):
     ) {
       this.setAttribute(key, value)
     } else {
-      if (
+      const aHrefResolver = microApp?.options?.aHrefResolver
+      if (key === 'href' && /^a$/i.test(this.tagName) && typeof aHrefResolver === 'function') {
+        // 试验性质：a 标签开放自定义补齐功能
+        value = aHrefResolver(value, appName, url)
+      } else if (
         ((key === 'src' || key === 'srcset') && /^(img|script|video|audio|source|embed)$/i.test(this.tagName)) ||
         (key === 'href' && /^(link|image)$/i.test(this.tagName)) ||
         // If it is the anchor tag,eg. <a href="#xxx"/>, the path will not be completed

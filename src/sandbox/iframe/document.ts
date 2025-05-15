@@ -33,6 +33,7 @@ import {
 import {
   appInstanceMap,
 } from '../../create_app'
+import microApp from '../../micro_app'
 
 /**
  * TODO: 1、shadowDOM 2、结构优化
@@ -133,6 +134,9 @@ function patchDocumentPrototype (appName: string, microAppWindow: microAppWindow
   // query element👇
   function querySelector (this: Document, selectors: string): any {
     const _this = getBindTarget(this)
+    if (selectors === 'body' && microApp?.options?.inheritBaseBody !== true) {
+      return this.body
+    }
     if (
       !selectors ||
       isUniqueElement(selectors) ||
@@ -302,6 +306,9 @@ function patchDocumentProperty (
       configurable: true,
       get: () => {
         throttleDeferForIframeAppName(appName)
+        if (tagName === 'body' && microApp?.options?.inheritBaseBody !== true) {
+          return sandbox.options.container?.querySelector('micro-app-body') || rawDocument[tagName]
+        }
         return rawDocument[tagName]
       },
       set: (value: unknown) => { rawDocument[tagName] = value },

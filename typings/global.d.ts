@@ -188,6 +188,7 @@ declare module '@micro-app/types' {
     routerMode: string // virtual router mode
     isPrefetch: boolean // whether prefetch app, default is false
     isPrerender: boolean
+    isReloading?: boolean
     prefetchLevel?: number
     // defaultPage: string // default page when mount
     // baseroute: string // route prefix, default is ''
@@ -311,6 +312,7 @@ declare module '@micro-app/types' {
         loader?: (code: string, url: string) => string
         // html processor
         processHtml?: (code: string, url: string) => string
+        aHrefResolver?: (hrefValue: string, appName: string, appUrl: string) => string
       }>
     }
   }
@@ -361,10 +363,13 @@ declare module '@micro-app/types' {
     fetch?: fetchType
     globalAssets?: globalAssetsType,
     excludeAssetFilter?: (assetUrl: string) => boolean
+    excludeRunScriptFilter?: (scriptUrl: string, error: Error, appName: string, appUrl: string) => boolean
     /* image video audio 是否设置 crossOrigin = 'anonymous' */
     includeCrossOrigin?: (assetUrl: string) => boolean
     getRootElementParentNode?: (node: Node, appName: AppName) => void
     customProxyDocumentProps?: Map<string | number | symbol, (value: unknown) => void>
+    aHrefResolver?: (hrefValue: string, appName: string, appUrl: string) => string
+    inheritBaseBody?:boolean
   }
 
   // MicroApp config

@@ -144,6 +144,9 @@ export function isVideoElement(target: unknown): target is HTMLVideoElement {
 export function isLinkElement(target: unknown): target is HTMLLinkElement {
   return toTypeString(target) === '[object HTMLLinkElement]'
 }
+export function isBodyElement(target: unknown): target is HTMLBodyElement {
+  return toTypeString(target) === '[object HTMLBodyElement]'
+}
 
 export function isStyleElement(target: unknown): target is HTMLStyleElement {
   return toTypeString(target) === '[object HTMLStyleElement]'
@@ -760,6 +763,9 @@ export function instanceOf<T extends new (...args: unknown[]) => unknown>(
     return false
   } else if (!isFunction(constructor)) {
     throw new TypeError("Right-hand side of 'instanceof' is not callable")
+  } else if (typeof instance === 'number' || typeof instance === 'string' || typeof instance === 'boolean') {
+    // 检查 obj 是否是基本类型的包装器实例
+    return false
   }
   let proto = Object.getPrototypeOf(instance)
   while (proto) {
